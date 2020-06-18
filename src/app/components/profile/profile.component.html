@@ -1,0 +1,33 @@
+<div class="profile-container">
+  <div>
+    <button (click)="signOut()">Sign out</button>
+  </div>
+  <div class="content-list" style="display: flex;">
+    <h1 style="flex: 10">Content List</h1>
+    <h5 style="flex: 1" (click)="gotoAddCategory()">Add Category</h5>
+    <h5 style="flex: 1" (click)="gotoAddContent()">Add Content</h5>
+  </div>
+
+  <div>
+    <select (change)="onChange($event.target.value)">
+      <option *ngFor="let category of categories; let i = index" [value]="i">
+        {{category.categoryName}}
+      </option>
+    </select>
+    <input [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}" (input)="search()">
+  </div>
+  <div>
+    <div style="display: flex;">
+      <div style="width: 50%;">
+        Content Name
+      </div>
+      <div style="width: 50%;">
+        Image
+      </div>
+    </div>
+    <div *ngFor="let list of content" style="display: flex;">
+      <div style="width: 50%;">{{list.name}}</div>
+      <div style="width: 50%;"><img src="{{list.fileLink}}" style="width: 50px; height: auto;"></div>
+    </div>
+  </div>
+</div>

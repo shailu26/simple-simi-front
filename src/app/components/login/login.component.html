@@ -1,0 +1,8 @@
+<div class="login-container">
+  <form>
+    <input type="email" [(ngModel)]="email" placeholder="email" [ngModelOptions]="{standalone: true}">
+    <input type="password" [(ngModel)]="password" placeholder="full name" [ngModelOptions]="{standalone: true}">
+    <button type="button" (click)="signIn()">Login</button>
+    <button type="button" (click)="signUp()">Signup</button>
+  </form>
+</div>

@@ -1,0 +1,8 @@
+<div class="singup-container">
+  <form>
+    <input type="text" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" />
+    <input type="email" [(ngModel)]="email" placeholder="email" [ngModelOptions]="{standalone: true}">
+    <input type="password" [(ngModel)]="password" placeholder="full name" [ngModelOptions]="{standalone: true}">
+    <button type="button" (click)="signUp()">Signup</button>
+  </form>
+</div>
