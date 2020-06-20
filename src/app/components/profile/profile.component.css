@@ -1,0 +1,8 @@
+.profile-titles .title {
+  font-size: 30px;
+}
+.add-category,
+.add-content {
+  font-size: 17px;
+  cursor: pointer;
+}

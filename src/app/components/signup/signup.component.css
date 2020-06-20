@@ -1,0 +1,9 @@
+.signup-container {
+  min-height: 100vh;
+}
+
+form.signup-form {
+  position: relative;
+  padding-top: 10%;
+  height: 100vh;
+}

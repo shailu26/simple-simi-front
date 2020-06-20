@@ -1,8 +1,12 @@
-<div class="singup-container">
-  <form>
-    <input type="text" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" />
-    <input type="email" [(ngModel)]="email" placeholder="email" [ngModelOptions]="{standalone: true}">
-    <input type="password" [(ngModel)]="password" placeholder="full name" [ngModelOptions]="{standalone: true}">
-    <button type="button" (click)="signUp()">Signup</button>
+<div class="signup-container">
+  <form class="signup-form ">
+    <input type="text" [(ngModel)]="name" placeholder="Full Name*" [ngModelOptions]="{standalone: true}" />
+    <input type="email" [(ngModel)]="email" placeholder="Email*" [ngModelOptions]="{standalone: true}">
+    <input type="password" [(ngModel)]="password" placeholder="Password*" [ngModelOptions]="{standalone: true}">
+    <button type="button" (click)="signUp()" class="btn" style="width: 25%;margin-bottom: 15px;">Signup</button>
+    <div>
+      <button type="button" (click)="login()" class="btn" style="width: 25%;">Login</button>
+
+    </div>
   </form>
 </div>

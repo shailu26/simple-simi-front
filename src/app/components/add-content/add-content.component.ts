@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpHeaders, HttpRequest, HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-content',
@@ -10,9 +11,9 @@ import { environment } from '../../../environments/environment';
 export class AddContentComponent implements OnInit {
   file: any;
   name: any;
-  categories: any;
-  selectedValue: any;
-  constructor(private http: HttpClient) {}
+  categories: any = [];
+  selectedValue: any = null;
+  constructor(private http: HttpClient, private toastr: ToastrService) {}
 
   ngOnInit() {
     this.getUserDetails();
@@ -20,12 +21,19 @@ export class AddContentComponent implements OnInit {
   async getUserDetails() {
     let user: any = await this.http.get(`${environment.baseUrl}/api/user/getCurrentUser`).toPromise();
     console.log({ user });
+
     this.categories = user.userDetails[0].category;
-    this.selectedValue = this.categories[0]._id;
+    if (this.categories.length) {
+      this.selectedValue = this.categories[0]._id;
+    }
   }
 
   uploadToS3(url, data, type) {
-    const headers = new HttpHeaders({ 'Content-Type': type, 'x-amz-acl': 'public-read' });
+    const headers = new HttpHeaders({
+      'Content-Type': type,
+      'x-amz-acl': 'public-read',
+      'Access-Control-Allow-Origin': '*',
+    });
     const req = new HttpRequest('PUT', url, data, {
       headers,
     });
@@ -50,30 +58,36 @@ export class AddContentComponent implements OnInit {
     };
     myReader.readAsDataURL(file);
     console.log(this.selectedValue);
-    // this.file = file;
-    // console.log(file);
   }
   async add() {
-    const type = this.file.substring('data:image/'.length, this.file.indexOf(';base64'));
-    console.log({ type });
-    let url = await this.http
-      .post(`${environment.baseUrl}/api/user/getPresignedUrl`, {
-        bucketName: 'vhire',
-        folderName: 'abc',
-        files: [{ contentType: type }],
-      })
-      .toPromise();
-    console.log(url);
-    const fileData: any = await this.urltoFile(this.file, url[0].fileName, type);
-    const s3: any = await this.uploadToS3(url[0].url, fileData, type);
-    console.log({ s3 });
-    const updated: any = await this.http
-      .post(`${environment.baseUrl}/api/content/create`, {
-        name: this.name,
-        category: this.selectedValue,
-        fileLink: s3.url,
-      })
-      .toPromise();
+    if (this.name && this.selectedValue && this.file) {
+      const type = this.file.substring('data:image/'.length, this.file.indexOf(';base64'));
+      console.log({ type });
+      try {
+        let url = await this.http
+          .post(`${environment.baseUrl}/api/user/getPresignedUrl`, {
+            bucketName: 'vhire',
+            folderName: 'abc',
+            files: [{ contentType: type }],
+          })
+          .toPromise();
+        console.log(url);
+        const fileData: any = await this.urltoFile(this.file, url[0].fileName, type);
+        const s3: any = await this.uploadToS3(url[0].url, fileData, type);
+        console.log({ s3 });
+        const updated: any = await this.http
+          .post(`${environment.baseUrl}/api/content/create`, {
+            name: this.name,
+            category: this.selectedValue,
+            fileLink: s3.url,
+          })
+          .toPromise();
+        this.toastr.success('Content Added Successfully');
+      } catch (e) {
+        console.log({ e });
+        this.toastr.error('Something went wrong');
+      }
+    }
   }
 
   urltoFile(url, filename, mimeType) {

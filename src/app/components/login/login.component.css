@@ -1,0 +1,9 @@
+.login-container {
+  min-height: 100vh;
+}
+
+form.login-form {
+  position: relative;
+  padding-top: 10%;
+  height: 100vh;
+}

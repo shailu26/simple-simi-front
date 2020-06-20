@@ -1,5 +1,17 @@
 <div class="app-container">
-  <router-outlet></router-outlet>
+  <div class="navbar" [ngStyle]="{display: title === 'login' || title === 'signup'? 'none': 'block'}">
+    <div style="display: flex;">
+      <div style="flex: 11;">
+        <img src="https://i.imgur.com/loviNSa.png" style="width: 50px;cursor: pointer;" (click)="gotoHome()">
+      </div>
+      <div style="flex: 1">
+        <img src="https://i.imgur.com/FP3nqbU.png" style="width: 30px;cursor: pointer;" (click)="signOut()">
+      </div>
+    </div>
+  </div>
+
+  <router-outlet (activate)=" onActivate($event)">
+  </router-outlet>
 </div>
 
 <!-- <a routerLink="/login">login</a> -->

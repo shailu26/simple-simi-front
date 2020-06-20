@@ -23,8 +23,10 @@ export class ProfileComponent implements OnInit {
     console.log({ user });
     user = user.userDetails[0];
     this.categories = user.category;
-    this.content = this.categories[0].content;
-    this.contentCopy = JSON.parse(JSON.stringify(this.categories[0].content));
+    if (this.categories.length) {
+      this.content = this.categories[0].content;
+      this.contentCopy = JSON.parse(JSON.stringify(this.categories[0].content));
+    }
   }
 
   gotoAddCategory() {
@@ -46,9 +48,5 @@ export class ProfileComponent implements OnInit {
     } else {
       this.content = JSON.parse(JSON.stringify(this.contentCopy));
     }
-  }
-  signOut() {
-    localStorage.setItem('token', null);
-    this.router.navigate(['login']);
   }
 }

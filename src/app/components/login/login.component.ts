@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -10,25 +13,46 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   email = '';
   password = '';
-  constructor(private http: HttpClient, private router: Router) {}
+  title = 'login';
+
+  private jwtHelper = new JwtHelperService();
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit() {
-    console.log('here');
-    // this.http.get(`http://localhost:8001/auth/google`).toPromise();
+    const queryParamMap: any = this.route.snapshot.queryParamMap;
+    console.log(this.route.snapshot.queryParamMap);
+    if (queryParamMap.params.hasOwnProperty('token') && !this.jwtHelper.isTokenExpired(queryParamMap.params.token)) {
+      localStorage.setItem('token', queryParamMap.params.token);
+      this.router.navigate(['home']);
+    }
   }
   async signIn() {
-    console.log('dsadadada');
-    let result: any = await this.http
-      .post(`http://localhost:8001/api/user/login`, { email: this.email, password: this.password })
-      .toPromise();
-    console.log({ result });
-    if (result.token) {
-      localStorage.setItem('token', result.token);
+    if (this.email.length && this.password.length) {
+      try {
+        const result: any = await this.http
+          .post(`http://localhost:8001/api/user/login`, { email: this.email, password: this.password })
+          .toPromise();
+        console.log({ result });
+        if (result.token) {
+          localStorage.setItem('token', result.token);
+        }
+        this.toastr.success('Login Successfull');
+        this.router.navigate(['home']);
+      } catch (e) {
+        this.toastr.error('Something went wrong, Check server is up and running');
+      }
     }
-    this.router.navigate(['home']);
   }
   signUp() {
     console.log('sinffsdfns');
     this.router.navigate(['signup']);
+  }
+  async loginWithGoogle() {
+    window.open(`${environment.baseUrl}/auth/google`);
   }
 }

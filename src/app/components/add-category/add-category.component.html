@@ -1,7 +1,12 @@
 <div class="category-container">
   <form>
-    <input type="text" [(ngModel)]="name" placeholder="name" [ngModelOptions]="{standalone: true}">
+    <div>
+      <input type="text" [(ngModel)]="name" placeholder="Category Name*" [ngModelOptions]="{standalone: true}">
 
-    <button type="button" (click)="add()">Add Category</button>
+    </div>
+    <div>
+      <button type="button" (click)="add()" class="btn">Add Category</button>
+
+    </div>
   </form>
 </div>

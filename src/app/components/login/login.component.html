@@ -1,8 +1,24 @@
 <div class="login-container">
-  <form>
-    <input type="email" [(ngModel)]="email" placeholder="email" [ngModelOptions]="{standalone: true}">
-    <input type="password" [(ngModel)]="password" placeholder="full name" [ngModelOptions]="{standalone: true}">
-    <button type="button" (click)="signIn()">Login</button>
-    <button type="button" (click)="signUp()">Signup</button>
+  <form class="login-form">
+    <div>
+      <input type="email" [(ngModel)]="email" placeholder="Email*" [ngModelOptions]="{standalone: true}">
+
+    </div>
+    <div>
+      <input type="password" [(ngModel)]="password" placeholder="Password*" [ngModelOptions]="{standalone: true}">
+
+    </div>
+    <div style="margin-bottom: 15px;">
+      <button style="width: 25%;" type="button" (click)="signIn()" class="btn">Login</button>
+
+    </div>
+    <div style="margin-bottom: 15px;">
+
+      <button style="width: 25%;" type="button" (click)="signUp()" class="btn">Signup</button>
+    </div>
+    <div style="margin-bottom: 15px;">
+      <button style="width: 25%;" type="button" (click)="loginWithGoogle()" class="btn">Log in with Google</button>
+
+    </div>
   </form>
 </div>

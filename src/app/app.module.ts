@@ -11,6 +11,8 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { AddCategoryComponent } from './components/add-category/add-category.component';
 import { AddContentComponent } from './components/add-content/add-content.component';
 import { FormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,14 @@ import { FormsModule } from '@angular/forms';
     AddCategoryComponent,
     AddContentComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(),
+  ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }],
   bootstrap: [AppComponent],
 })

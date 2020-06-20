@@ -1,33 +1,44 @@
 <div class="profile-container">
-  <div>
-    <button (click)="signOut()">Sign out</button>
-  </div>
-  <div class="content-list" style="display: flex;">
-    <h1 style="flex: 10">Content List</h1>
-    <h5 style="flex: 1" (click)="gotoAddCategory()">Add Category</h5>
-    <h5 style="flex: 1" (click)="gotoAddContent()">Add Content</h5>
+
+  <div class="profile-titles" style="display: flex;">
+    <div style="flex: 10;" class="title">Content List</div>
+    <div style="flex: 1;margin-right: 10px;" class="add-category btn btn-primary" (click)="gotoAddCategory()">Add
+      Category</div>
+    <div style="flex: 1;" class="add-content btn btn-primary" (click)="gotoAddContent()">Add Content</div>
   </div>
 
-  <div>
-    <select (change)="onChange($event.target.value)">
-      <option *ngFor="let category of categories; let i = index" [value]="i">
-        {{category.categoryName}}
-      </option>
-    </select>
-    <input [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}" (input)="search()">
-  </div>
-  <div>
-    <div style="display: flex;">
-      <div style="width: 50%;">
-        Content Name
-      </div>
-      <div style="width: 50%;">
-        Image
-      </div>
+  <div *ngIf="categories.length" style="display: flex;padding-top: 20px;">
+    <div style="flex: 1;">
+      <select (change)="onChange($event.target.value)">
+        <option *ngFor="let category of categories; let i = index" [value]="i">
+          {{category.categoryName}}
+        </option>
+      </select>
     </div>
-    <div *ngFor="let list of content" style="display: flex;">
-      <div style="width: 50%;">{{list.name}}</div>
-      <div style="width: 50%;"><img src="{{list.fileLink}}" style="width: 50px; height: auto;"></div>
+    <div style="flex: 4;margin-left: 10px;">
+      <input [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}" (input)="search()">
+
     </div>
   </div>
+  <div style="padding-top: 40px;">
+
+    <div *ngIf="content.length">
+      <div style="display: flex;" class="font17">
+        <div style="width: 50%;">
+          Content Name
+        </div>
+        <div style="width: 50%;">
+          Image
+        </div>
+      </div>
+      <div *ngFor="let list of content" style="display: flex;" class="font17">
+        <div style="width: 50%;">{{list.name}}</div>
+        <div style="width: 50%;"><img src="{{list.fileLink}}" style="width: 50px; height: auto;"></div>
+      </div>
+    </div>
+    <div *ngIf="!content.length">
+      <div class="text-center font17">{{searchText.length ?'No records found' : 'No content to show, Add one'}}</div>
+    </div>
+  </div>
+
 </div>
